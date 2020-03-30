@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" ><generator uri="https://jekyllrb.com/" version="4.0.0">Jekyll</generator><link href="http://localhost:4000/feed.xml" rel="self" type="application/atom+xml" /><link href="http://localhost:4000/" rel="alternate" type="text/html" /><updated>2020-03-30T22:18:09+02:00</updated><id>http://localhost:4000/feed.xml</id><title type="html">Wassim’s Blog</title><subtitle>Just my quick notes</subtitle><entry><title type="html">Infer.NET - Two Children</title><link href="http://localhost:4000/2020/03/30/infer-net-two-children.html" rel="alternate" type="text/html" title="Infer.NET - Two Children" /><published>2020-03-30T00:00:00+02:00</published><updated>2020-03-30T00:00:00+02:00</updated><id>http://localhost:4000/2020/03/30/infer-net-two-children</id><content type="html" xml:base="http://localhost:4000/2020/03/30/infer-net-two-children.html">&lt;p&gt;Let’s explore some basic concepts about probability and &lt;a href=&quot;https://dotnet.github.io/infer/&quot; target=&quot;\_blank&quot;&gt;Infer.NET&lt;/a&gt;&lt;/p&gt;
+
+&lt;h2 id=&quot;two-boys-or-two-girls&quot;&gt;Two boys or two girls&lt;/h2&gt;
+
+&lt;p&gt;Given two children, what is the probability that the two are boys or the two are girls?&lt;/p&gt;
+
+&lt;h3 id=&quot;probabilities&quot;&gt;Probabilities&lt;/h3&gt;
+
+&lt;p&gt;Since we are not given any extra information about the two children, then each child is equally likely to be a girl or a boy.&lt;/p&gt;
+
+&lt;p&gt;So the probability that the first child is a boy can be given by:&lt;/p&gt;
+
+&lt;p&gt;&lt;script type=&quot;math/tex&quot;&gt;p(first\_boy) = 0.5&lt;/script&gt;.&lt;/p&gt;
+
+&lt;p&gt;And the probability that the second child is a boy can be given by:&lt;/p&gt;
+
+&lt;p&gt;&lt;script type=&quot;math/tex&quot;&gt;p(second\_boy) = 0.5&lt;/script&gt;.&lt;/p&gt;
+
+&lt;p&gt;From the &lt;strong&gt;&lt;em&gt;complement rule&lt;/em&gt;&lt;/strong&gt; of probability which states that the sum of the probabilities of an event and its complement must equal 1, We get:&lt;/p&gt;
+
+&lt;p&gt;&lt;script type=&quot;math/tex&quot;&gt;p(first\_girl) = 1 - p(first\_boy) = 1 - 0.5 = 0.5&lt;/script&gt;.&lt;/p&gt;
+
+&lt;p&gt;&lt;script type=&quot;math/tex&quot;&gt;p(second\_girl) = 1 - p(second\_boy) = 1 - 0.5 = 0.5&lt;/script&gt;.&lt;/p&gt;
+
+&lt;p&gt;Then the probability that the two children are boys is given by:&lt;/p&gt;
+
+&lt;script type=&quot;math/tex; mode=display&quot;&gt;p(both\_boys) = p(first\_boy) * p(second\_boy)&lt;/script&gt;
+
+&lt;script type=&quot;math/tex; mode=display&quot;&gt;p(both\_boys) = 0.5 * 0.5 = 0.25&lt;/script&gt;
+
+&lt;p&gt;And the probability that the two children are girls is given by:&lt;/p&gt;
+
+&lt;script type=&quot;math/tex; mode=display&quot;&gt;p(both\_girls) = p(first\_girl) * p(second\_girl)&lt;/script&gt;
+
+&lt;script type=&quot;math/tex; mode=display&quot;&gt;p(both\_girls) = 0.5 * 0.5 = 0.25&lt;/script&gt;
+
+&lt;h3 id=&quot;infernet&quot;&gt;Infer.NET&lt;/h3&gt;
+
+&lt;p&gt;Let’s see how to represent and solve the above problem using &lt;a href=&quot;https://dotnet.github.io/infer/&quot; target=&quot;\_blank&quot;&gt;Infer.NET&lt;/a&gt;.&lt;/p&gt;
+
+&lt;p&gt;To represent the gender of the child, we can use a binary probability distribution over a boolean value. Where the value of &lt;em&gt;true&lt;/em&gt; can represent boy and &lt;em&gt;false&lt;/em&gt; can represent &lt;em&gt;girl&lt;/em&gt;. In &lt;em&gt;Infer.NET&lt;/em&gt; we can do that by creating a random variable and specify its prior distribution to be a &lt;a href=&quot;https://en.wikipedia.org/wiki/Bernoulli_distribution&quot; target=&quot;\_blank&quot;&gt;Bernoulli distribution&lt;/a&gt; (a type of binary distributions).&lt;/p&gt;
+
+&lt;div class=&quot;language-csharp highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;c1&quot;&gt;// a random variable representing the first child is a boy&lt;/span&gt;
+&lt;span class=&quot;n&quot;&gt;Variable&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;&amp;lt;&lt;/span&gt;&lt;span class=&quot;kt&quot;&gt;bool&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;&amp;gt;&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;first_boy&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;Variable&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nf&quot;&gt;Bernoulli&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;m&quot;&gt;0.5&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;);&lt;/span&gt;
+
+&lt;span class=&quot;c1&quot;&gt;// a random variable representing the second child is a boy&lt;/span&gt;
+&lt;span class=&quot;n&quot;&gt;Variable&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;&amp;lt;&lt;/span&gt;&lt;span class=&quot;kt&quot;&gt;bool&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;&amp;gt;&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;second_boy&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;Variable&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nf&quot;&gt;Bernoulli&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;m&quot;&gt;0.5&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;);&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;Now we can represent the rest of the probabilities using the random variables defined above as follows:&lt;/p&gt;
+
+&lt;div class=&quot;language-csharp highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;c1&quot;&gt;// a derived random variable representing the first child is a girl&lt;/span&gt;
+&lt;span class=&quot;n&quot;&gt;Variable&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;&amp;lt;&lt;/span&gt;&lt;span class=&quot;kt&quot;&gt;bool&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;&amp;gt;&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;first_girl&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;!&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;first_boy&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt;
+
+&lt;span class=&quot;c1&quot;&gt;// a derived random variable representing the second child is a girl&lt;/span&gt;
+&lt;span class=&quot;n&quot;&gt;Variable&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;&amp;lt;&lt;/span&gt;&lt;span class=&quot;kt&quot;&gt;bool&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;&amp;gt;&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;second_girl&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;!&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;second_boy&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt;
+
+&lt;span class=&quot;c1&quot;&gt;// a derived random variable representing both childs are boys&lt;/span&gt;
+&lt;span class=&quot;n&quot;&gt;Variable&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;&amp;lt;&lt;/span&gt;&lt;span class=&quot;kt&quot;&gt;bool&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;&amp;gt;&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;both_boys&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;first_boy&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;&amp;amp;&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;second_boy&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt;
+
+&lt;span class=&quot;c1&quot;&gt;// a derived random variable representing both childs are girls&lt;/span&gt;
+&lt;span class=&quot;n&quot;&gt;Variable&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;&amp;lt;&lt;/span&gt;&lt;span class=&quot;kt&quot;&gt;bool&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;&amp;gt;&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;both_girls&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;first_girl&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;&amp;amp;&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;second_girl&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;To calculate the value of the derived random variables &lt;em&gt;both_boys&lt;/em&gt; and &lt;em&gt;both_girls&lt;/em&gt; (i.e. the distribution of these random variables), we need to perform &lt;em&gt;inference&lt;/em&gt;. And to perform inference in Infer.NET, we need to use an inference engine.&lt;/p&gt;
+
+&lt;div class=&quot;language-csharp highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;c1&quot;&gt;// create an inference engine&lt;/span&gt;
+&lt;span class=&quot;n&quot;&gt;InferenceEngine&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;engine&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;new&lt;/span&gt; &lt;span class=&quot;nf&quot;&gt;InferenceEngine&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;();&lt;/span&gt;
+
+&lt;span class=&quot;c1&quot;&gt;// perform inference on the random variable both_boys&lt;/span&gt;
+&lt;span class=&quot;n&quot;&gt;Console&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nf&quot;&gt;WriteLine&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;Probability both childs are are boys: &quot;&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;+&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;engine&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nf&quot;&gt;Infer&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;both_boys&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;));&lt;/span&gt;
+
+&lt;span class=&quot;c1&quot;&gt;// perform inference on the random variable both_girls&lt;/span&gt;
+&lt;span class=&quot;n&quot;&gt;Console&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nf&quot;&gt;WriteLine&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;Probability both childs are are girls: &quot;&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;+&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;engine&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nf&quot;&gt;Infer&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;both_girls&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;));&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;When run, this code prints out:&lt;/p&gt;
+
+&lt;div class=&quot;language-shell highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;Compiling model...done.
+Probability both childs are are boys: Bernoulli&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;0.25&lt;span class=&quot;o&quot;&gt;)&lt;/span&gt;
+Probability both childs are are girls: Bernoulli&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;0.25&lt;span class=&quot;o&quot;&gt;)&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;</content><author><name>Wassim</name></author><category term="Infer.NET" /><category term="Probability" /><category term="Bayesian ML" /><summary type="html">Let’s explore some basic concepts about probability and Infer.NET</summary></entry></feed>
