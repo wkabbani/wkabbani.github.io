@@ -1,7 +1,7 @@
 ---
 layout: post
 title: Infer.NET - Two Children
-tags: [Infer.NET, Probability, Bayesian ML]
+tags: [Infer.NET, Probability, Bayesian Machine Learning]
 color: brown
 author: wassim
 ---

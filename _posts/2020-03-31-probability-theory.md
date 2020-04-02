@@ -1,7 +1,7 @@
 ---
 layout: post
 title: Probability Theory - Quick Note
-tags: [Probability, Bayesian ML, Quick Note]
+tags: [Probability, Bayesian Machine Learning, Quick Note]
 color: "#581845"
 author: wassim
 ---
