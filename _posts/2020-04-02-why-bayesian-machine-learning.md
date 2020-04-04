@@ -1,7 +1,7 @@
 ---
 layout: post
 title: Bayesian Machine Learning - Why?!
-tags: [Bayesian Machine Learning]
+tags: [Bayesian Machine Learning, Pattern Recognition]
 color: "#00a8cc"
 author: wassim
 ---
@@ -69,3 +69,7 @@ The main issue with the traditional approach is that it doesn't allow us to buil
 One way to deal with the over-fitting problem is a technique called _Regularization_, which adds a penalty to the error function to discourage large values for the coefficients. However we still need a way to determine a suitable value for the model complexity, and using two datasets one for training and one just to optimize and determine the model complexity is not always possible or practical in real-world applications as mentioned.
 
 So we need an approach that will allow us to develop models with a degree of complexity that suits the complexity of the problem they are trying to solve, and to do that with small amount of training data.
+
+---
+
+> Disclaimer: All the content is inspired by the great book [Pattern Recognition and Machine Learning, by Christopher M. Bishop](http://users.isr.ist.utl.pt/~wurmd/Livros/school/Bishop%20-%20Pattern%20Recognition%20And%20Machine%20Learning%20-%20Springer%20%202006.pdf). And all the credit is to be given to the author of the book [Christopher Bishop](https://en.wikipedia.org/wiki/Christopher_Bishop). These are just my notes from the book and some selected ideas to form my own narrative. Please refer to the book for full accuracy and details.
